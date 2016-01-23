@@ -9,10 +9,10 @@ class parse():
                 people.append(response['items'][i]['id'])
             except:
                 pass
-
         return people
 
 
     def parse_group(response):
 
         return response['groups']['items']
+

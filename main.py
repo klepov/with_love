@@ -57,7 +57,14 @@ class Model():
 
     def get_subscribe(self, id):
         subscribe = self.vk.users.getSubscriptions(user_id=id, extended=0)
-
         return subscribe
+
+    def isMember(self,group_id,user_id):
+        response = []
+        response.append(self.vk.groups.isMember(group_id=group_id, user_ids=str(user_id)))
+        response = response[0]
+
+        return response
+
 
 # main()

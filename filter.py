@@ -4,7 +4,7 @@ from main import Model
 from parse import parse
 from compare import compare
 
-test = Model(login='dima1da@yandex.ru', passw='rekord777888')
+test = Model(login='*', passw='*')
 parser = parse()
 compare = compare()
 

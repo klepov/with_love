@@ -1,4 +1,5 @@
 import requests
+import time
 import vk_api
 
 
@@ -35,47 +36,36 @@ class Model():
         self.vk = vk_session.get_api()
         self.tools = vk_api.VkTools(vk_session)
 
-    def get_local_people(self, city, age_from, age_to, sex, relation):
-        offset_result = 0
-        response_offset = []
+    def get_local_people(self):
+
         """
-        отдает людей по критерию
-        :param city: айди города
-        :param age_from: возраст начало
-        :param age_to: возраст конец
-        :param sex: пол 1 - Ж/ 2 - М
-        :param relation: 1 — не женат/не замужем; 2 — есть друг/есть подруга; 3 — помолвлен/помолвлена; 4 — женат/замужем: 5 — всё сложно; 6 — в активном поиске; 7 — влюблён/влюблена; 0 — не указано.
+        отдает людей
         :return: все найденые страницы
         """
 
-        response = self.tools.get_all('users.search',10000,
-                                      {'city':city,
-                                       'age_from':age_from,
-                                       'age_to': age_to,
-                                       'sex': sex,
-                                       'status' : relation})
-
-        print("ss")
-        # response = self.vk.users.search(city = city,
-        #                                 age_from= age_from,
-        #                                 age_to= age_to,
-        #                                 sex= sex,
-        #                                 status = relation,
-        #                                 count = 1000)
+        finder_people = []
+        offset = 0
+        while True:
+            response = self.vk.groups.getMembers(group_id = "62784408",
+                                        fields = ('sex,bdate,city,relation'),
+                                        offset= offset
+                                        )
 
 
-        # count = response['count']
-        # if response['count'] > 1000:
-        #     q = count // 1000
-        #     response = self.vk.users.search(city = city,
-        #                                 age_from= age_from,
-        #                                 age_to= age_to,
-        #                                 sex= sex,
-        #                                 status = relation,
-        #                                 count = 1000,
-        #                                 offset = q)
+            count = response['count']
 
-        return response
+            if count < offset:
+                break
+
+            else:
+                finder_people.append(response['items'])
+
+                offset += 1000
+
+            # time.sleep(1)
+
+
+        return finder_people
 
     def get_subscribe(self, id):
         subscribe = self.vk.users.getSubscriptions(user_id=id, extended=0)

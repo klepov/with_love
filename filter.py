@@ -23,9 +23,10 @@ my_groups = parse.parse_group(my_group_response)
 
 lal = []
 for white in range(len(list_group_overhear)):
-    compare.search_inst(test.isMember(list_group_overhear[white],people))
-
-    test.isMember()
+    test.isMembers(list_group_overhear[white],people)
+    # compare.search_inst()
+    #
+    # test.isMembers()
 
 print(lal)
 

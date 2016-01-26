@@ -7,7 +7,9 @@ class compare():
 
         members = []
         for positive in range(len(response)):
+            print("----look-----")
+            print(response)
             if response[positive]['member'] == 1:
-                members.append(response[positive]['user_id'])
+                    members.append(response[positive]['user_id'])
 
         return members

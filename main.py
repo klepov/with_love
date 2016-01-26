@@ -36,7 +36,8 @@ class Model():
         self.tools = vk_api.VkTools(vk_session)
 
     def get_local_people(self, city, age_from, age_to, sex, relation):
-
+        offset_result = 0
+        response_offset = []
         """
         отдает людей по критерию
         :param city: айди города
@@ -46,12 +47,33 @@ class Model():
         :param relation: 1 — не женат/не замужем; 2 — есть друг/есть подруга; 3 — помолвлен/помолвлена; 4 — женат/замужем: 5 — всё сложно; 6 — в активном поиске; 7 — влюблён/влюблена; 0 — не указано.
         :return: все найденые страницы
         """
-        response = self.vk.users.search(city = city,
-                                        age_from= age_from,
-                                        age_to= age_to,
-                                        sex= sex,
-                                        status = relation,
-                                        count = 1000)
+
+        response = self.tools.get_all('users.search',10000,
+                                      {'city':city,
+                                       'age_from':age_from,
+                                       'age_to': age_to,
+                                       'sex': sex,
+                                       'status' : relation})
+
+        print("ss")
+        # response = self.vk.users.search(city = city,
+        #                                 age_from= age_from,
+        #                                 age_to= age_to,
+        #                                 sex= sex,
+        #                                 status = relation,
+        #                                 count = 1000)
+
+
+        # count = response['count']
+        # if response['count'] > 1000:
+        #     q = count // 1000
+        #     response = self.vk.users.search(city = city,
+        #                                 age_from= age_from,
+        #                                 age_to= age_to,
+        #                                 sex= sex,
+        #                                 status = relation,
+        #                                 count = 1000,
+        #                                 offset = q)
 
         return response
 
@@ -59,11 +81,23 @@ class Model():
         subscribe = self.vk.users.getSubscriptions(user_id=id, extended=0)
         return subscribe
 
-    def isMember(self,group_id,user_id):
+    def isMembers(self,group_id,user_id):
         response = []
-        response.append(self.vk.groups.isMember(group_id=group_id, user_ids=str(user_id)))
-        response = response[0]
+        users_500 = 0
+        user_len = len(user_id)
+        retry = (user_len//500)+1
+        count = 0
 
+        while count != retry:
+            users_500 = user_id[count*500:(count+1)*500]
+            print("------500-------")
+            print(users_500)
+            response.extend(self.vk.groups.isMember(group_id=group_id, user_ids=str(users_500)))
+
+
+            count +=1
+
+        print(len(response))
         return response
 
 

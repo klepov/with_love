@@ -5,10 +5,9 @@ class parse():
         print(count)
 
         for i in range(count):
-            try:
-                people.append(response['items'][i]['id'])
-            except:
-                pass
+            print(i)
+            people.append(response['items'][i]['id'])
+
         return people
 
 

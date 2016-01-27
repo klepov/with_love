@@ -13,8 +13,7 @@ class parse():
                 if peoples[people]['city']['title'] == 'Красногорск'\
                     and peoples[people]['sex']== 1\
                         and peoples[people]['relation']== 6:
-
-                    peoples_result.append(peoples[people]['id'])
+                        peoples_result.append(peoples[people]['id'])
 
             except KeyError:
                 pass

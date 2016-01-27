@@ -17,6 +17,7 @@ import vk_api
 #     id = response['items'][0]['id']
 #
 #     # запрос на паблики
+from compare import compare
 
 
 class Model():
@@ -80,14 +81,13 @@ class Model():
 
         while count != retry:
             users_500 = user_id[count*500:(count+1)*500]
-            print("------500-------")
-            print(users_500)
-            response.extend(self.vk.groups.isMember(group_id=group_id, user_ids=str(users_500)))
+            # compare.search_inst(self.vk.groups.isMember(group_id=group_id, user_ids=str(users_500)))
+            response.extend(compare.search_inst(self.vk.groups.isMember(group_id=group_id, user_ids=str(users_500))))
 
 
             count +=1
 
-        print(len(response))
+        print(response)
         return response
 
 

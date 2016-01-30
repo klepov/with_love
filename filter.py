@@ -10,7 +10,7 @@ from collections import Counter
 list_group_overhear = [80178582]
 
 
-test = Model(login='dima1da@yandex.ru', passw='rekord777888')
+test = Model(login='*', passw='*')
 
 parser = parse()
 compare = compare()

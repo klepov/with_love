@@ -39,31 +39,35 @@ class Model():
 
     def get_local_people(self):
 
+        overhears = [64609248,62784408]
+
         """
         отдает людей
         :return: все найденые страницы
         """
-
         finder_people = []
-        offset = 0
-        while True:
-            response = self.vk.groups.getMembers(group_id = "62784408",
-                                        fields = ('sex,bdate,city,relation'),
-                                        offset= offset
-                                        )
+
+        for overhear in range(len(overhears)):
+
+            offset = 0
+            while True:
+                response = self.vk.groups.getMembers(group_id = overhears[overhear],
+                                            fields = ('sex,bdate,city,relation'),
+                                            offset= offset
+                                            )
 
 
-            count = response['count']
+                count = response['count']
 
-            if count < offset:
-                break
+                if count < offset:
+                    break
 
-            else:
-                finder_people.append(response['items'])
+                else:
+                    finder_people.append(response['items'])
 
-                offset += 1000
+                    offset += 1000
 
-            # time.sleep(1)
+                # time.sleep(1)
 
 
         return finder_people

@@ -1,4 +1,11 @@
 class parse():
+    def drop_dubl(self,L):
+        result = list()
+        for item in L:
+            if item not in result:
+                result.append(item)
+        return result
+
     def parse_response_people_id(response):
         # todo сделать передачу параметров
         peoples = []
@@ -6,6 +13,8 @@ class parse():
 
         for i in range(len(response)):
             peoples.extend(response[i])
+
+        # peoples = self.drop_dubl(peoples)
 
         for people in range(len(peoples)):
 
@@ -19,6 +28,7 @@ class parse():
                 pass
 
         return peoples_result
+
 
 
     def parse_group(response):
